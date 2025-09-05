@@ -219,23 +219,19 @@ namespace parsers {
 			
 			// === check deps ===
 			int deps_parser_result = deps_parser(read_line, deps);
-			if(str_utils::trim(read_line) == argument) {
-				if(deps_parser_result == -1) {
-					// target file not found
-					(void)0;
-				} else if(deps_parser_result == -2) {
+			if(str_utils::trim(read_line) == argument) { 
+				if(deps_parser_result == -2) {
 					// deps not found
 					run::error_control(ERROR_DEPS_NOT_EXISTS, line_counter, deps);
 					controllers_set_true();
 					break;
-				} else if(deps_parser_result == -3) {
+				} 
+
+				if(deps_parser_result == -3) {
 					// target newer then deps
 					controllers_set_true();
 					std::cout << color_codes_parser.color_warning_s << UP_TO_DATE_0 << read_line << UP_TO_DATE_1 << color_codes_parser.color_warning_e << "\n";
 					continue;
-				} else {
-					// deps ok
-					(void)0;
 				}
 			}	
 			
@@ -243,21 +239,23 @@ namespace parsers {
 			key_control = str_utils::find_key_index(read_line, IF_KEY);
 			condition_key_for_length = IF_KEY;                                                                                                  //eq
 			detect_condition_parser_result = detect_condition_parser(condition_data, read_line, key_control, condition_key_for_length.length(), false);
+			
 			if(detect_condition_parser_result == 1) {
 				// condition is true
 				condition_false_control = false;
 				condition_controller = detect_condition_parser_result;
 				continue;
-			} else if(detect_condition_parser_result == 0) {
+			}
+			
+			if(detect_condition_parser_result == 0) {
 				// condition is false
 				condition_false_control = true;
 				continue;
-			} else {
-				(void)0;
 			}
 						
 			// run in "if"
-			handle_condition_parser_result = handle_condition_parser(condition_controller, read_line, line_counter);		
+			handle_condition_parser_result = handle_condition_parser(condition_controller, read_line, line_counter);
+			
 		    if(!handle_condition_parser_result) 
 		    		condition_controller = handle_condition_parser_result;
 			else 
@@ -267,21 +265,23 @@ namespace parsers {
 			key_control = str_utils::find_key_index(read_line, ELIF_KEY);
 			condition_key_for_length = ELIF_KEY;                                                                                                //eq
 			detect_condition_parser_result = detect_condition_parser(condition_data, read_line, key_control, condition_key_for_length.length(), true);
+			
 			if(detect_condition_parser_result == 1) {
 				//condition is true
 				condition_false_control = false;
 				condition_controller = detect_condition_parser_result;
 				continue;
-			} else if(detect_condition_parser_result == 0) {
+			}
+
+			if(detect_condition_parser_result == 0) {
 				// condition is false
 				condition_false_control = true;
 				continue;
-			} else {
-				(void)0;
 			}
 	
 			// run in "ELIF" 
 			handle_condition_parser_result = handle_condition_parser(condition_controller, read_line, line_counter);
+			
 			if(!handle_condition_parser_result) 
 				condition_controller = handle_condition_parser_result;
 			else 
@@ -291,7 +291,9 @@ namespace parsers {
 			if(str_utils::rtrim(read_line) == ELSE_KEY) {
 				condition_else_detect = true;
 				continue;
-			} else if(condition_else_detect) {
+			} 
+			
+			if(condition_else_detect) {
 				handle_condition_parser_result = handle_condition_parser(condition_false_control, read_line, line_counter);
 				if(!handle_condition_parser_result) {
 					condition_false_control = handle_condition_parser_result;
@@ -299,8 +301,6 @@ namespace parsers {
 				} else {
 					continue;
 				} condition_else_detect = false;
-			} else {
-				(void)0;
 			}
 			
 			// === process and execute on directive ===

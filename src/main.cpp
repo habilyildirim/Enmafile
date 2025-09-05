@@ -81,8 +81,6 @@ int main(int argc, char* argv[]) {
 	if(std::filesystem::exists(file_path) && !(std::filesystem::is_directory(file_path))) {
 		#ifdef _WIN32
 			set_ter_color(color_codes);
-		#else
-			(void)0;
 		#endif
 		
 		// RUN PARSING
