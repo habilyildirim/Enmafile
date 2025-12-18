@@ -31,11 +31,14 @@ int main(int argc, char* argv[]) {
 		if(argument == VERSION_ARG_KEY) {
 		    std::cout << VERSION_OUT << VERSION << "\n";
 		    return 0;
-		} file_path = current_path + "/" + FILE_READ_KEY;
+		} 
+		
+		file_path = current_path + "/" + FILE_READ_KEY;
 
 		//* -s silence argument control
 		if(argument == SILENCE_ARG_KEY) {
 			silence_arg_control = true;
+			
 			if(argc < 3)
 				argument = DEFAULT_ARG;
 			else 
@@ -45,6 +48,7 @@ int main(int argc, char* argv[]) {
 		//* -sur silence unexpected results argument control
 		if(argument == SILENCE_URSLT_ARG_KEY) {
 			silence_urslt_arg_control = true;
+			
 			if(argc < 3) 
 				argument = DEFAULT_ARG;
 			else 
