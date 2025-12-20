@@ -20,6 +20,7 @@ int main(int argc, char* argv[]) {
 
 	// argument control ---
 	int arg_control_counter = 0;
+	
 	while(1) {
 		//* -h help argument control
 		if(argument == HELP_ARG_KEY) {

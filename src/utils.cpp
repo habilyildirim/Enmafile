@@ -8,6 +8,7 @@ namespace str_utils {
 	    	std::find_if(result.begin(), result.end(),[](unsigned char ch) {
 	    		return !std::isspace(ch);
 	    	}));
+	    	
 	    return result;
 	}
 	
@@ -19,11 +20,13 @@ namespace str_utils {
 	        }).base(),
 	        result.end()
 	    );
+	    
 	    return result;
 	}
 
-	std::string trim(const std::string& data) 
-		{return rtrim(ltrim(data));}
+	std::string trim(const std::string& data) {
+		return rtrim(ltrim(data));
+	}
 		
 
 	int find_key_index(const std::string& data, std::string key) {
@@ -38,7 +41,9 @@ namespace str_utils {
 		for(int counter = 0; counter != find_index_vector.size(); counter++) {
 			if(find_index_vector[counter] == find_index_value) 
 				return counter;
-		} return -1;
+		} 
+
+		return -1;
 	}
 }
 

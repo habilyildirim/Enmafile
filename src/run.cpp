@@ -43,14 +43,18 @@ namespace run {
 		#endif
 		
 		int pos = 0;
+		
 		while(pos != std::string::npos) {
 			pos = result.find('\n', pos);
+			
 			if(pos == std::string::npos) 
 				break;
 				
     		result.replace(pos, 1, " ");
     		pos += 1;
-		} return result;
+		} 
+
+		return result;
 	}
 	
 	bool error_control(const std::string& control_value, const int& error_line, std::string parameter = "") {
@@ -58,11 +62,12 @@ namespace run {
 		const std::string error_msg_end = color_codes_rt.color_error_f + "\n";	
 
 		if(control_value == ERROR_FILE_NOT_EXISTS) {
-			std::cout << error_msg_str << EC000 << error_msg_end;
+			std::cout << error_msg_str << EC000 << error_msg_end;			
 			return true;
 		} else if(control_value == ERROR_TARGET_NOT_EXISTS) {
 			std::cout << error_msg_str << EC001 << error_msg_end;
 			std::cout << parameter;
+			
 			return true;
 		} else if(control_value == ERROR_NULL_VAR_NAME) {
 			std::cout << error_msg_str << EC00 << error_msg_end;

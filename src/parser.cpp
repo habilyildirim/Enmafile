@@ -16,6 +16,7 @@ void controllers_set_true() {
 namespace parsers {
 	std::string line_parser(const std::string& line, std::string pars_symbol_start, std::string pars_sybol_end, int to_parse) {
 	    size_t pos = line.find(pars_symbol_start);
+	    
 	    if(pos == std::string::npos) 
 	    	return line;
 	
@@ -24,6 +25,7 @@ namespace parsers {
 	
 	    while(pos != std::string::npos) {
 	        size_t pose = line.find(pars_sybol_end, pos + pars_symbol_start.size());
+	        
 	        if(pose == std::string::npos) 
 	        	break;
 	
@@ -32,6 +34,7 @@ namespace parsers {
 	        if(to_parse == 0) {
 	            // to_parse = 0 -> var parsing
 	            int tfi = str_utils::find_index(var_struct_ref_parser.var_name, temp_parameter);
+	            
 	            if (tfi == -1) 
 	            	return ERROR_VAR_NOT_EXISTS + temp_parameter;
 	            else 
@@ -42,13 +45,16 @@ namespace parsers {
 	        }
 	        	
 	        pos = line.find(pars_symbol_start, pose + pars_sybol_end.size());
+	        
 	        if(pos == std::string::npos) {
 	            temp += line.substr(pose + pars_sybol_end.size()); // add the rest
 	            break;
 	        }
 	
 	        temp += line.substr(pose + pars_sybol_end.size(), pos - (pose + pars_sybol_end.size()));
-	    } return temp;
+	    } 
+
+	    return temp;
 	}
 	
 	bool var_def_parser(std::string read_line, int line_counter) {
@@ -63,6 +69,7 @@ namespace parsers {
 				
 				//change var value
 				int tfi = str_utils::find_index(var_struct_ref_parser.var_name, temp_var_name);
+				
 				if(tfi != -1)  {
 					var_struct_ref_parser.var_value[tfi] = temp_var_value;
 				} else {
@@ -71,7 +78,9 @@ namespace parsers {
 					var_struct_ref_parser.var_value.push_back(temp_var_value);
 				}
 			}
-		} return true;
+		}
+		 
+		return true;
 	}
 	
 	int detect_condition_parser(std::string& condition_data, std::string& read_line, int key_control, int key_length, bool eq_state) {
@@ -95,7 +104,9 @@ namespace parsers {
 				return 1;
 			else 
 				return 0;
-		} return -1;
+		} 
+
+		return -1;
 	}
 	
 	bool condition_control_parser(const std::string& data, bool eq, int toControl) {
@@ -131,7 +142,9 @@ namespace parsers {
 				return true;
 			else 
 				return false;
-		} return false;
+		} 
+
+		return false;
 	}
 	
 	bool handle_condition_parser(bool condition_controller, std::string& read_line, int line_counter) {
@@ -140,9 +153,10 @@ namespace parsers {
 				return false;
 			else 
 				var_def_parser(str_utils::ltrim(read_line), line_counter);
-				
 	    		return true;
-	    } return false;
+	    } 
+
+	    return false;
 	}
 	
 	int deps_parser(const std::string& target, const std::string& deps) {
@@ -162,7 +176,9 @@ namespace parsers {
 				// if deps newer then target 
 				if(target_time < std::filesystem::last_write_time(deps_temp)) 
 					return 0;
-			} return -3;
+			} 
+
+			return -3;
 		}
 	}
 	
@@ -199,6 +215,7 @@ namespace parsers {
 			if(read_line.substr(0, var_not_exists_error.length()) == ERROR_VAR_NOT_EXISTS) {
 				run::error_control(ERROR_VAR_NOT_EXISTS, line_counter, read_line.substr(var_not_exists_error.length(), read_line.length() - var_not_exists_error.length()));
 				controllers_set_true();
+				
 				break;
 			} else {
 				read_line = line_parser(read_line, "s>", "<s", 1);
@@ -213,6 +230,7 @@ namespace parsers {
 			if(key_control != -1) {
 				// get deps
 				deps = read_line.substr(key_control + 6, read_line.length() - key_control + 1);
+				
 				// depless line
 				read_line = str_utils::trim(read_line.substr(0, key_control));
 			}
@@ -224,6 +242,7 @@ namespace parsers {
 					// deps not found
 					run::error_control(ERROR_DEPS_NOT_EXISTS, line_counter, deps);
 					controllers_set_true();
+					
 					break;
 				} 
 
@@ -231,6 +250,7 @@ namespace parsers {
 					// target newer then deps
 					controllers_set_true();
 					std::cout << color_codes_parser.color_warning_s << UP_TO_DATE_0 << read_line << UP_TO_DATE_1 << color_codes_parser.color_warning_e << "\n";
+					
 					continue;
 				}
 			}	
@@ -244,6 +264,7 @@ namespace parsers {
 				// condition is true
 				condition_false_control = false;
 				condition_controller = detect_condition_parser_result;
+				
 				continue;
 			}
 			
@@ -270,6 +291,7 @@ namespace parsers {
 				//condition is true
 				condition_false_control = false;
 				condition_controller = detect_condition_parser_result;
+				
 				continue;
 			}
 
@@ -300,7 +322,9 @@ namespace parsers {
 					condition_else_detect = false;
 				} else {
 					continue;
-				} condition_else_detect = false;
+				} 
+
+				condition_else_detect = false;
 			}
 			
 			// === process and execute on directive ===
