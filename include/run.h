@@ -4,7 +4,8 @@
 extern bool silence_arg_control;
 extern bool silence_urslt_arg_control;
 
-namespace run {
+namespace run 
+{
 	static bool silence_control_arg = false;
 	
 	void execute_directive(const std::string& directive, bool silence_control);
